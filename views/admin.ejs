@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin · Platform Undangan Pernikahan</title>
+  <style>
+    :root{--sage:#d98f9c;--sage-dark:#a94f68;--cream:#fff5f3;--ink:#49313a;--line:#f0d6dc}
+    *{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font:15px/1.55 system-ui,-apple-system,Segoe UI,sans-serif}
+    header{background:linear-gradient(120deg,#a94f68,#f0b7aa);color:#fff;padding:32px max(20px,calc((100% - 1100px)/2))}
+    h1{margin:0 0 5px;font-family:Georgia,serif;font-weight:500}header p{margin:0;opacity:.9}
+    main{max-width:1100px;margin:26px auto;padding:0 18px}.panel{background:white;border:1px solid var(--line);border-radius:18px;padding:24px;margin-bottom:22px;box-shadow:0 8px 30px #243c2a0a}
+    h2{font-family:Georgia,serif;font-weight:500;margin:0 0 18px;color:var(--sage-dark)}h3{margin:0 0 12px;font-size:1rem}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.field{display:flex;flex-direction:column;gap:6px}.wide{grid-column:1/-1}
+    label{font-weight:650;font-size:.9rem}input,textarea,select{width:100%;border:1px solid #cbd5cb;border-radius:10px;padding:11px 12px;font:inherit;background:#fff;color:var(--ink)}
+    input[type=file]{padding:8px}small,.hint{color:#68756b;font-size:.82rem}button,.btn{display:inline-block;border:0;border-radius:999px;padding:12px 20px;background:var(--sage-dark);color:white;font-weight:700;cursor:pointer;text-decoration:none}
+    button:hover,.btn:hover{background:#304736}.actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:20px}
+    .alert{padding:12px 15px;border-radius:10px;margin-bottom:16px}.error{background:#fff0ed;color:#8a2f22}.success{background:#e8f4e9;color:#245b32}
+    .table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:550px}th,td{text-align:left;padding:12px;border-bottom:1px solid var(--line);vertical-align:top}th{font-size:.82rem;color:#59675d}
+    code{background:#f0f3ed;padding:3px 6px;border-radius:5px}.pill{display:inline-block;background:#eaf0e8;color:#405b49;border-radius:99px;padding:3px 8px;font-size:.8rem}
+    .creator-credit{text-align:center;padding:22px 16px 28px;color:#8a5967;font-size:.88rem;letter-spacing:.04em}.creator-credit strong{color:var(--sage-dark);font-weight:750}
+    @media(max-width:650px){.grid{grid-template-columns:1fr}.wide{grid-column:auto}.panel{padding:17px}header{padding:25px 20px}}
+  </style>
+</head>
+<body>
+<header><h1>Platform Undangan Pernikahan</h1><p>Dashboard undangan pernikahan · tema yang dapat dikustomisasi</p></header>
+<main>
+  <% if (error) { %><div class="alert error"><strong>Gagal:</strong> <%= error %></div><% } %>
+  <% if (new URLSearchParams(typeof query !== 'undefined' ? query : '').get('created')) { %><div class="alert success">Undangan berhasil dibuat.</div><% } %>
+  <% if (new URLSearchParams(typeof query !== 'undefined' ? query : '').get('updated')) { %><div class="alert success">Perubahan undangan berhasil disimpan.</div><% } %>
+  <section class="panel">
+    <h2>Buat undangan baru</h2>
+    <p class="hint">Foto pengantin, galeri, latar belakang setiap section, dan lagu bisa diunggah langsung dari sini. Foto: JPG, PNG, WEBP, atau GIF, maksimal 500 KB per foto. Lagu MP3 maksimal 20 MB.</p>
+    <form action="/admin/invitations" method="post" enctype="multipart/form-data">
+      <div class="grid">
+        <div class="field"><label for="groomName">Nama mempelai pria *</label><input id="groomName" name="groomName" required maxlength="100" placeholder="Andi Pratama"></div>
+        <div class="field"><label for="brideName">Nama mempelai wanita *</label><input id="brideName" name="brideName" required maxlength="100" placeholder="Siti Rahma"></div>
+        <div class="field"><label for="groomBio">Biodata singkat pria</label><textarea id="groomBio" name="groomBio" rows="2" maxlength="500" placeholder="Tulis biodata singkat mempelai pria"></textarea></div>
+        <div class="field"><label for="brideBio">Biodata singkat wanita</label><textarea id="brideBio" name="brideBio" rows="2" maxlength="500" placeholder="Tulis biodata singkat mempelai wanita"></textarea></div>
+        <div class="field wide"><label for="invitingFamily">Keluarga yang turut mengundang</label><textarea id="invitingFamily" name="invitingFamily" rows="2" maxlength="500" placeholder="Keluarga besar kedua mempelai ..."></textarea></div>
+        <div class="field"><label for="eventDate">Tanggal dan waktu acara (zona waktu lokal) *</label><input id="eventDate" name="eventDate" type="datetime-local" required></div>
+        <div class="field"><label for="eventTime">Keterangan waktu acara</label><input id="eventTime" name="eventTime" maxlength="80" placeholder="Akad 09.00 WITA · Resepsi 12.00 WITA"></div>
+        <div class="field wide"><label for="venue">Lokasi acara *</label><input id="venue" name="venue" required maxlength="200" placeholder="Gedung / alamat lengkap"></div>
+        <div class="field wide"><label for="mapsUrl">Link Google Maps (acara utama/lama)</label><input id="mapsUrl" name="mapsUrl" type="url" maxlength="1000" placeholder="https://maps.google.com/..."></div>
+        <div class="field wide"><h3 style="margin:10px 0 0;color:#a94f68">Jadwal pemberkatan</h3></div>
+        <div class="field"><label for="blessingDate">Tanggal pemberkatan</label><input id="blessingDate" name="blessingDate" type="datetime-local"></div>
+        <div class="field"><label for="blessingTime">Jam/keterangan pemberkatan</label><input id="blessingTime" name="blessingTime" maxlength="80" placeholder="10.00 WIB"></div>
+        <div class="field wide"><label for="blessingVenue">Lokasi pemberkatan</label><input id="blessingVenue" name="blessingVenue" maxlength="200" placeholder="Gereja / alamat lengkap"></div>
+        <div class="field wide"><label for="blessingMapsUrl">Google Maps pemberkatan</label><input id="blessingMapsUrl" name="blessingMapsUrl" type="url" maxlength="1000" placeholder="https://maps.google.com/..."></div>
+        <div class="field wide"><h3 style="margin:10px 0 0;color:#a94f68">Jadwal resepsi</h3></div>
+        <div class="field"><label for="receptionDate">Tanggal resepsi</label><input id="receptionDate" name="receptionDate" type="datetime-local"></div>
+        <div class="field"><label for="receptionTime">Jam/keterangan resepsi</label><input id="receptionTime" name="receptionTime" maxlength="80" placeholder="12.00–15.00 WIB"></div>
+        <div class="field wide"><label for="receptionVenue">Lokasi resepsi</label><input id="receptionVenue" name="receptionVenue" maxlength="200" placeholder="Gedung / alamat lengkap"></div>
+        <div class="field wide"><label for="receptionMapsUrl">Google Maps resepsi</label><input id="receptionMapsUrl" name="receptionMapsUrl" type="url" maxlength="1000" placeholder="https://maps.google.com/..."></div>
+        <div class="field wide"><h3 style="margin:10px 0 0;color:#a94f68">Warna undangan</h3><small>Pilih warna tema tombol/aksen, latar halaman, dan tulisan. Bisa disesuaikan untuk setiap undangan.</small></div>
+        <div class="field"><label for="themeColor">Warna tema tombol</label><input id="themeColor" name="themeColor" type="color" value="#a94f68"></div>
+        <div class="field"><label for="accentColor">Warna aksen/dekorasi</label><input id="accentColor" name="accentColor" type="color" value="#d98f9c"></div>
+        <div class="field"><label for="backgroundColor">Warna latar undangan</label><input id="backgroundColor" name="backgroundColor" type="color" value="#fff5f3"></div>
+        <div class="field"><label for="textColor">Warna tulisan</label><input id="textColor" name="textColor" type="color" value="#49313a"></div>
+        <div class="field"><label for="slug">URL slug unik *</label><input id="slug" name="slug" required pattern="[A-Za-z0-9]+([\-][A-Za-z0-9]+)*" maxlength="100" placeholder="andi-siti"><small>Alamat tamu: /undangan/andi-siti</small></div>
+        <div class="field wide"><label for="musicUpload">Upload lagu undangan (MP3)</label><input id="musicUpload" type="file" name="musicUpload" accept=".mp3,audio/mpeg"><small>Pilih file lagu dari komputer. Lagu akan mulai dicoba diputar saat tamu menekan tombol “Buka Undangan” (browser melarang autoplay sebelum ada interaksi). Maksimal 20 MB.</small></div>
+        <div class="field"><label for="groomPhoto">Foto mempelai pria</label><input id="groomPhoto" type="file" name="groomPhoto" accept="image/jpeg,image/png,image/webp,image/gif"><small>Maksimal 500 KB.</small></div>
+        <div class="field"><label for="bridePhoto">Foto mempelai wanita</label><input id="bridePhoto" type="file" name="bridePhoto" accept="image/jpeg,image/png,image/webp,image/gif"><small>Maksimal 500 KB.</small></div>
+        <div class="field"><label for="gallery1">Foto galeri 1</label><input id="gallery1" type="file" name="gallery1" accept="image/jpeg,image/png,image/webp,image/gif"><small>Maksimal 500 KB.</small></div>
+        <div class="field"><label for="gallery2">Foto galeri 2</label><input id="gallery2" type="file" name="gallery2" accept="image/jpeg,image/png,image/webp,image/gif"><small>Maksimal 500 KB.</small></div>
+        <div class="field"><label for="gallery3">Foto galeri 3</label><input id="gallery3" type="file" name="gallery3" accept="image/jpeg,image/png,image/webp,image/gif"><small>Maksimal 500 KB.</small></div>
+        <div class="field"><label for="gallery4">Foto galeri 4</label><input id="gallery4" type="file" name="gallery4" accept="image/jpeg,image/png,image/webp,image/gif"><small>Maksimal 500 KB.</small></div>
+        <div class="field"><label for="gallery5">Foto galeri 5</label><input id="gallery5" type="file" name="gallery5" accept="image/jpeg,image/png,image/webp,image/gif"><small>Maksimal 500 KB.</small></div>
+        <div class="field"><label for="gallery6">Foto galeri 6</label><input id="gallery6" type="file" name="gallery6" accept="image/jpeg,image/png,image/webp,image/gif"><small>Maksimal 500 KB.</small></div>
+        <div class="field"><label for="gallery7">Foto galeri 7</label><input id="gallery7" type="file" name="gallery7" accept="image/jpeg,image/png,image/webp,image/gif"><small>Maksimal 500 KB.</small></div>
+        <div class="field"><label for="gallery8">Foto galeri 8</label><input id="gallery8" type="file" name="gallery8" accept="image/jpeg,image/png,image/webp,image/gif"><small>Maksimal 500 KB.</small></div>
+        <div class="field"><label for="gallery9">Foto galeri 9</label><input id="gallery9" type="file" name="gallery9" accept="image/jpeg,image/png,image/webp,image/gif"><small>Maksimal 500 KB.</small></div>
+        <div class="field wide"><h3 style="margin:10px 0 0;color:#a94f68">Latar belakang foto prewedding per section</h3><small>Unggah foto berbeda untuk masing-masing bagian. Jika dikosongkan, warna peach tetap digunakan.</small></div>
+        <div class="field"><label for="coverBackground">Latar belakang cover / tampilan depan</label><input id="coverBackground" type="file" name="coverBackground" accept="image/jpeg,image/png,image/webp,image/gif"><small>Maksimal 500 KB.</small><label for="fontCover">Ukuran font nama di cover (px)</label><input id="fontCover" name="fontCover" type="number" min="22" max="60" value="40"><small>Atur agar nama lebih melebar dan tidak menumpuk ke bawah.</small></div>
+        <div class="field"><label for="introBackground">Latar belakang pembuka / kata pengantar</label><input id="introBackground" type="file" name="introBackground" accept="image/jpeg,image/png,image/webp,image/gif"><small>Maksimal 500 KB.</small><label for="fontIntro">Ukuran font teks pembuka (px)</label><input id="fontIntro" name="fontIntro" type="number" min="13" max="24" value="17"></div>
+        <div class="field"><label for="profileBackground">Latar belakang profil pengantin</label><input id="profileBackground" type="file" name="profileBackground" accept="image/jpeg,image/png,image/webp,image/gif"><small>Maksimal 500 KB.</small><label for="fontProfile">Ukuran font nama mempelai (px)</label><input id="fontProfile" name="fontProfile" type="number" min="20" max="44" value="30"></div>
+        <div class="field"><label for="eventBackground">Latar belakang acara & countdown</label><input id="eventBackground" type="file" name="eventBackground" accept="image/jpeg,image/png,image/webp,image/gif"><small>Maksimal 500 KB.</small><label for="fontEvent">Ukuran font teks acara (px)</label><input id="fontEvent" name="fontEvent" type="number" min="13" max="24" value="17"></div>
+        <div class="field"><label for="galleryBackground">Latar belakang galeri foto</label><input id="galleryBackground" type="file" name="galleryBackground" accept="image/jpeg,image/png,image/webp,image/gif"><small>Maksimal 500 KB.</small><label for="fontGallery">Ukuran font teks galeri (px)</label><input id="fontGallery" name="fontGallery" type="number" min="13" max="24" value="17"></div>
+        <div class="field"><label for="rsvpBackground">Latar belakang RSVP & ucapan</label><input id="rsvpBackground" type="file" name="rsvpBackground" accept="image/jpeg,image/png,image/webp,image/gif"><small>Maksimal 500 KB.</small><label for="fontRsvp">Ukuran font nama tamu, kehadiran &amp; ucapan (px)</label><input id="fontRsvp" name="fontRsvp" type="number" min="13" max="24" value="17"><small>Teks tamu juga dibuat lebih terang dan tebal.</small></div>
+      </div>
+      <div class="actions"><button type="submit">Simpan undangan</button><span class="hint">Slug yang sudah dipakai tidak dapat digunakan kembali.</span></div>
+    </form>
+  </section>
+
+  <section class="panel">
+    <h2>Undangan tersimpan</h2>
+    <% if (!invitations.length) { %><p>Belum ada undangan. Buat undangan pertama melalui formulir di atas.</p><% } else { %>
+      <div class="table-wrap"><table><thead><tr><th>Pasangan</th><th>Slug</th><th>Tanggal</th><th>Pratinjau</th><th>Kelola</th></tr></thead><tbody>
+      <% invitations.slice().reverse().forEach(inv => { %>
+        <tr><td><strong><%= inv.groomName %> &amp; <%= inv.brideName %></strong></td><td><code><%= inv.slug %></code></td><td><%= inv.eventDate.replace('T',' ') %></td><td><a href="/undangan/<%= encodeURIComponent(inv.slug) %>" target="_blank" rel="noopener">Buka undangan ↗</a></td><td><a class="btn" href="/admin/invitations/<%= encodeURIComponent(inv.id) %>/edit">Edit undangan</a></td></tr>
+      <% }) %>
+      </tbody></table></div>
+    <% } %>
+  </section>
+
+  <section class="panel">
+    <h2>Ucapan terbaru</h2>
+    <% if (!rsvps.length) { %><p>Belum ada ucapan tamu.</p><% } else { %>
+      <div class="table-wrap"><table><thead><tr><th>Tamu</th><th>Undangan</th><th>Kehadiran</th><th>Ucapan</th></tr></thead><tbody>
+      <% rsvps.forEach(r => { %><tr><td><%= r.name %></td><td><code><%= r.slug %></code></td><td><span class="pill"><%= r.attendance %></span></td><td><%= r.message %></td></tr><% }) %>
+      </tbody></table></div>
+    <% } %>
+  </section>
+</main>
+<footer class="creator-credit">Created by <strong>Ven Loe</strong></footer>
+<script>
+  // Membantu membentuk slug dari nama pasangan, namun tetap bisa diedit manual.
+  const slugInput = document.getElementById('slug');
+  let slugManuallyEdited = false;
+  slugInput.addEventListener('input', () => { slugManuallyEdited = true; });
+  function toSlug(s) {
+    return s.normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toLowerCase()
+      .replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+  }
+  for (const id of ['groomName','brideName']) {
+    document.getElementById(id).addEventListener('input', () => {
+      if (!slugManuallyEdited) {
+        slugInput.value = [toSlug(document.getElementById('groomName').value),
+          toSlug(document.getElementById('brideName').value)].filter(Boolean).join('-');
+      }
+    });
+  }
+</script>
+</body>
+</html>

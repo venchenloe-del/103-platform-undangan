@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#718875">
+  <title><%= invitation.groomName %> & <%= invitation.brideName %> · Undangan Pernikahan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root{--sage:<%= invitation.accentColor || '#d98f9c' %>;--deep:<%= invitation.themeColor || '#a94f68' %>;--pale:<%= invitation.accentColor || '#d98f9c' %>33;--cream:<%= invitation.backgroundColor || '#fff5f3' %>;--gold:<%= invitation.accentColor || '#d98f9c' %>;--ink:<%= invitation.textColor || '#49313a' %>}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--cream);color:var(--ink);font:16px/1.7 'DM Sans',sans-serif}
+    h1,h2,h3,.serif{font-family:'Playfair Display',Georgia,serif;font-weight:400}h2{font-size:clamp(2rem,5vw,3.2rem);line-height:1.15;margin:8px 0 18px}
+    p{margin:8px 0}.eyebrow{text-transform:uppercase;letter-spacing:.2em;font-size:.72rem;color:var(--sage);font-weight:700}
+    .section{padding:100px 20px;position:relative}.inner{max-width:1000px;margin:auto;text-align:center}.cover{min-height:100svh;display:grid;place-items:center;text-align:center;padding:clamp(28px,5vh,56px) 20px;color:#fff;background-image:linear-gradient(#7b334c55,#8c465955),url('<%= invitation.backgrounds && invitation.backgrounds.cover ? "/public/uploads/" + encodeURIComponent(invitation.backgrounds.cover) : "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1800&q=85" %>');background-position:center 32%;background-size:cover;background-repeat:no-repeat}
+    .cover-card{width:min(100%,620px);padding:clamp(26px,5vh,56px) 24px;border:1px solid #ffffff9c;background:#ffffff12;backdrop-filter:blur(5px);border-radius:220px 220px 22px 22px}
+    .cover .eyebrow{color:#fff0ed}.cover h1{font-size:<%= (invitation.fontSizes && invitation.fontSizes.cover) || 40 %>px;line-height:1.12;margin:20px 0;display:flex;justify-content:center;align-items:baseline;flex-wrap:wrap;gap:.08em .22em;overflow-wrap:anywhere}.cover h1>span{min-width:0}.cover h1 .amp{font-size:.82em}.person h3{font-size:var(--profile-font-size,2rem)}.photo-section .section-copy{font-size:var(--section-font-size,17px)}.amp{color:#ffe0d6;font-style:italic}.date{letter-spacing:.12em}
+    .button{display:inline-flex;align-items:center;justify-content:center;gap:8px;margin-top:22px;padding:12px 24px;border:1px solid var(--gold);border-radius:999px;background:var(--deep);color:white;text-decoration:none;font:600 .9rem 'DM Sans',sans-serif;cursor:pointer;transition:transform .2s,background .2s}
+    .button:hover{transform:translateY(-2px);filter:brightness(.9)}.button.light{background:transparent;border-color:#fff;color:#fff}.button:focus-visible{outline:3px solid #e4d6a8;outline-offset:3px}
+    .flourish{font-size:2rem;color:var(--gold);line-height:1.2}.intro{max-width:650px;margin:0 auto 35px;color:#49313a;font-size:var(--section-font-size,17px);font-weight:600}.section#intro p:not(.serif),#acara .event-card p,#galeri .inner>p{font-size:var(--section-font-size,17px);font-weight:600;color:#49313a}.person h3{font-size:var(--profile-font-size,30px);overflow-wrap:anywhere}
+    .couple-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:35px;margin-top:42px}.person{padding:20px}.portrait{width:min(100%,300px);aspect-ratio:4/5;object-fit:cover;border-radius:180px 180px 12px 12px;background:var(--pale);box-shadow:0 15px 40px #233d2918}.person h3{font-size:var(--profile-font-size,30px);margin:20px 0 4px;overflow-wrap:anywhere}.person p{max-width:340px;margin:0 auto;color:var(--ink)}.parents{font-size:.95rem!important;line-height:1.6;margin-top:10px!important}
+    .soft{background:var(--pale)}.photo-section{background-position:center;background-size:cover;background-repeat:no-repeat;background-color:var(--cream);background-attachment:scroll;isolation:isolate}.photo-section::before{content:"";position:absolute;inset:0;background:linear-gradient(<%= invitation.backgroundColor || '#fff5f3' %>d9,<%= invitation.backgroundColor || '#fff5f3' %>e8);z-index:0;pointer-events:none}.photo-section>.inner,.photo-section>.rsvp-wrap{position:relative;z-index:1}.photo-section .event-card,.photo-section .wish,.photo-section .person{background:#fffdfcf0}.event-card{max-width:720px;margin:35px auto 0;padding:clamp(24px,5vw,48px);background:#fff;border:1px solid #d9e1d6;border-radius:22px;box-shadow:0 15px 50px #3149320c}
+    .event-meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin:28px 0}.meta{padding:17px;background:var(--cream);border-radius:12px}.meta strong{display:block;color:var(--deep);font-size:.85rem;text-transform:uppercase;letter-spacing:.1em}.countdown{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:24px 0}.count{min-width:75px;padding:12px 14px;background:var(--deep);color:white;border-radius:12px}.count b{display:block;font:1.7rem 'Playfair Display',serif}.count span{font-size:.7rem;text-transform:uppercase;letter-spacing:.1em}
+    .gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px;margin-top:35px}.gallery img{width:100%;height:300px;object-fit:cover;border-radius:12px;background:var(--pale);transition:transform .3s}.gallery img:hover{transform:scale(1.025)}
+    .rsvp-wrap{max-width:620px;margin:30px auto 0;text-align:left}.form-grid{display:grid;gap:13px}.form-grid label{font-size:var(--rsvp-font-size,17px);font-weight:800;color:#38202a}.form-grid input,.form-grid textarea,.form-grid select{width:100%;margin-top:5px;padding:12px;border:1px solid #cbd7c9;border-radius:10px;font:inherit;background:white}.form-grid textarea{min-height:110px;resize:vertical}.wishes{max-width:720px;margin:38px auto 0;text-align:left}.wish{background:#fff;padding:17px 20px;border-radius:12px;margin:12px 0;border:1px solid #e1e7de}.wish strong{color:#542236;font-weight:850;font-size:1.04em}.wish small{color:#4d2938;font-weight:850;font-size:.95em}.wish p{color:#34212a;font-weight:650;font-size:var(--rsvp-font-size,17px);line-height:1.65}
+    footer{text-align:center;padding:38px 20px;background:var(--deep);color:#f5f4eb}.music-toggle{position:fixed;right:16px;bottom:16px;z-index:10;border:1px solid #fff8;border-radius:999px;padding:11px 15px;background:var(--deep);color:white;box-shadow:0 5px 20px #0002;cursor:pointer;display:none}
+    .reveal{opacity:0;transform:translateY(22px);transition:opacity .8s ease,transform .8s ease}.reveal.visible{opacity:1;transform:translateY(0)}
+    .muted{color:#45303a;font-size:.95rem;font-weight:650}.hidden{display:none!important}
+    @media(max-width:650px){.cover{min-height:100svh;padding:24px 14px 38px;background-position:center 28%}.cover-card{width:min(100%,560px);padding:28px 18px;border-radius:140px 140px 20px 20px}.cover h1{font-size:min(<%= (invitation.fontSizes && invitation.fontSizes.cover) || 40 %>px, 9vw);line-height:1.1}.section{padding:72px 17px}.couple-grid{grid-template-columns:1fr;gap:22px}.person{padding:10px}.portrait{width:min(78%,280px)}.event-meta{grid-template-columns:1fr}.gallery{grid-template-columns:1fr 1fr}.gallery img{height:210px}.gallery img:last-child{grid-column:1/-1;height:240px}.cover-card{border-radius:170px 170px 20px 20px}.count{min-width:65px;padding:10px}.count b{font-size:1.4rem}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1;transform:none;transition:none}*{animation:none!important;transition:none!important}}
+  </style>
+</head>
+<body>
+  <main>
+    <section class="cover" id="cover">
+      <div class="cover-card">
+        <div class="eyebrow">Undangan Pernikahan</div>
+        <div class="flourish">❧</div>
+        <p>Dengan penuh sukacita, kami mengundang Anda ke perayaan cinta kami</p>
+        <h1 class="cover-names"><span><%= invitation.groomName %></span><span class="amp">&amp;</span><span><%= invitation.brideName %></span></h1>
+        <p class="date"><%= new Date(invitation.eventDate).toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'}) %></p>
+        <button class="button light" id="openInvitation" type="button">Buka Undangan <span aria-hidden="true">♡</span></button>
+        <p class="muted" style="color:#f3f2e9;margin-top:12px">Kepada Yth. Bapak/Ibu/Saudara/i</p>
+      </div>
+    </section>
+
+    <div id="invitationContent" class="hidden">
+      <section id="intro" class="section photo-section" style="--section-font-size:<%= (invitation.fontSizes && invitation.fontSizes.intro) || 17 %>px;<%= invitation.backgrounds && invitation.backgrounds.intro ? 'background-image:linear-gradient(#fff5f3c9,#fff5f3d9),url(/public/uploads/' + encodeURIComponent(invitation.backgrounds.intro) + ')' : '' %>">
+        <div class="inner reveal">
+          <div class="flourish">❧</div><div class="eyebrow">Salam sejahtera dalam kasih Tuhan Yesus Kristus</div>
+          <h2>Merayakan sebuah janji</h2>
+          <p class="intro">Dengan memohon rahmat dan berkat Tuhan Yang Maha Esa, kami bermaksud menyelenggarakan pernikahan kami. Merupakan kebahagiaan bagi kami apabila Anda berkenan hadir dan memberikan doa restu.</p>
+          <p class="serif" style="font-size:1.3rem">“Cinta tidak mencari kesempurnaan, tetapi tumbuh dalam ketulusan.”</p>
+        </div>
+      </section>
+
+      <section class="section soft photo-section" id="mempelai" style="--profile-font-size:<%= (invitation.fontSizes && invitation.fontSizes.profile) || 30 %>px;<%= invitation.backgrounds && invitation.backgrounds.profile ?  'background-image:linear-gradient(#fff5f3d9,#fff5f3e8),url(/public/uploads/' + encodeURIComponent(invitation.backgrounds.profile) + ')' : '' %>">
+        <div class="inner">
+          <div class="reveal"><div class="eyebrow">Kedua mempelai</div><h2>Dengan penuh cinta</h2><p class="intro">Dua hati, satu perjalanan, dan doa yang mengiringi langkah baru kami.</p></div>
+          <div class="couple-grid">
+            <article class="person reveal">
+              <% if (invitation.groomPhoto) { %><img class="portrait" src="/public/uploads/<%= encodeURIComponent(invitation.groomPhoto) %>" alt="Foto <%= invitation.groomName %>"><% } else { %><div class="portrait" style="margin:auto;display:grid;place-items:center;color:#a46b79">Foto mempelai pria</div><% } %>
+              <h3><%= invitation.groomName %></h3><p><%= invitation.groomBio || 'Putra terkasih yang memulai perjalanan baru dengan penuh harapan.' %></p>
+            </article>
+            <article class="person reveal">
+              <% if (invitation.bridePhoto) { %><img class="portrait" src="/public/uploads/<%= encodeURIComponent(invitation.bridePhoto) %>" alt="Foto <%= invitation.brideName %>"><% } else { %><div class="portrait" style="margin:auto;display:grid;place-items:center;color:#a46b79">Foto mempelai wanita</div><% } %>
+              <h3><%= invitation.brideName %></h3><p><%= invitation.brideBio || 'Putri terkasih yang memulai perjalanan baru dengan penuh harapan.' %></p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section photo-section" id="acara" style="--section-font-size:<%= (invitation.fontSizes && invitation.fontSizes.event) || 17 %>px;<%= invitation.backgrounds && invitation.backgrounds.event ?  'background-image:linear-gradient(#fff5f3d9,#fff5f3e8),url(/public/uploads/' + encodeURIComponent(invitation.backgrounds.event) + ')' : '' %>">
+        <div class="inner reveal">
+          <div class="eyebrow">Catat tanggalnya</div><h2>Hari bahagia kami</h2>
+          <p class="intro">Kehadiran dan doa restu Anda akan menjadi hadiah yang sangat berarti bagi kami.</p>
+          <div class="event-card">
+            <div class="flourish">✦</div><h3 style="font-size:1.8rem;margin:8px 0">Hari Pernikahan</h3>
+            <p class="serif" style="font-size:1.25rem"><%= new Date(invitation.eventDate).toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'}) %></p>
+            <p><%= invitation.eventTime || new Date(invitation.eventDate).toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'}) %></p>
+            <div class="countdown" id="countdown" aria-label="Hitung mundur">
+              <div class="count"><b id="days">--</b><span>Hari</span></div><div class="count"><b id="hours">--</b><span>Jam</span></div><div class="count"><b id="minutes">--</b><span>Menit</span></div><div class="count"><b id="seconds">--</b><span>Detik</span></div>
+            </div>
+            <% if (invitation.blessingDate || invitation.blessingVenue) { %>
+              <div class="event-card"><div class="flourish">✧</div><h3 style="font-size:1.6rem">Pemberkatan</h3>
+                <% if (invitation.blessingDate) { %><p class="serif"><%= new Date(invitation.blessingDate).toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'}) %></p><% } %>
+                <% if (invitation.blessingTime) { %><p><%= invitation.blessingTime %></p><% } %>
+                <% if (invitation.blessingVenue) { %><p><strong>Lokasi:</strong> <%= invitation.blessingVenue %></p><% } %>
+                <% if (invitation.blessingMapsUrl) { %><a class="button" href="<%= invitation.blessingMapsUrl %>" target="_blank" rel="noopener noreferrer">Google Maps pemberkatan ↗</a><% } %>
+              </div>
+            <% } %>
+            <% if (invitation.receptionDate || invitation.receptionVenue) { %>
+              <div class="event-card"><div class="flourish">✧</div><h3 style="font-size:1.6rem">Resepsi</h3>
+                <% if (invitation.receptionDate) { %><p class="serif"><%= new Date(invitation.receptionDate).toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'}) %></p><% } %>
+                <% if (invitation.receptionTime) { %><p><%= invitation.receptionTime %></p><% } %>
+                <% if (invitation.receptionVenue) { %><p><strong>Lokasi:</strong> <%= invitation.receptionVenue %></p><% } %>
+                <% if (invitation.receptionMapsUrl) { %><a class="button" href="<%= invitation.receptionMapsUrl %>" target="_blank" rel="noopener noreferrer">Google Maps resepsi ↗</a><% } %>
+              </div>
+            <% } %>
+            <% if (invitation.mapsUrl) { %><a class="button" href="<%= invitation.mapsUrl %>" target="_blank" rel="noopener noreferrer">Buka Google Maps ↗</a><% } %>
+          </div>
+        </div>
+      </section>
+
+      <section class="section soft photo-section" id="galeri" style="--section-font-size:<%= (invitation.fontSizes && invitation.fontSizes.gallery) || 17 %>px;<%= invitation.backgrounds && invitation.backgrounds.gallery ?  'background-image:linear-gradient(#fff5f3d9,#fff5f3e8),url(/public/uploads/' + encodeURIComponent(invitation.backgrounds.gallery) + ')' : '' %>">
+        <div class="inner reveal"><div class="eyebrow">Potret kenangan</div><h2>Galeri kami</h2><p class="intro">Beberapa momen yang ingin kami bagikan dengan Anda.</p>
+          <div class="gallery">
+            <% Array.from({ length: 9 }, (_, i) => (invitation.gallery || [])[i] || '').forEach((photo, i) => { %>
+              <% if (photo) { %><img class="reveal" src="/public/uploads/<%= encodeURIComponent(photo) %>" alt="Foto galeri <%= i + 1 %>" loading="lazy"><% } else { %><div class="reveal" style="min-height:220px;background:#f4d8dc;border-radius:12px;display:grid;place-items:center;color:#a46b79">Foto galeri <%= i + 1 %></div><% } %>
+            <% }) %>
+          </div>
+        </div>
+      </section>
+
+      <section class="section photo-section" id="ucapan" style="--rsvp-font-size:<%= (invitation.fontSizes && invitation.fontSizes.rsvp) || 17 %>px;<%= invitation.backgrounds && invitation.backgrounds.rsvp ?  'background-image:linear-gradient(#fff5f3d9,#fff5f3e8),url(/public/uploads/' + encodeURIComponent(invitation.backgrounds.rsvp) + ')' : '' %>">
+        <div class="inner reveal"><div class="eyebrow">Doa dan harapan</div><h2>Ucapan &amp; RSVP</h2><p class="intro">Tuliskan ucapan dan konfirmasi kehadiran Anda. Terima kasih telah menjadi bagian dari cerita kami.</p></div>
+        <div class="rsvp-wrap reveal">
+          <form class="form-grid" action="/undangan/<%= encodeURIComponent(invitation.slug) %>/rsvp" method="post">
+            <label>Nama Anda<input name="name" required maxlength="80" placeholder="Nama lengkap"></label>
+            <label>Konfirmasi kehadiran<select name="attendance"><option>Hadir</option><option>Tidak hadir</option><option>Masih ragu</option></select></label>
+            <label>Ucapan dan doa<textarea name="message" required maxlength="1000" placeholder="Tuliskan ucapan terbaik Anda..."></textarea></label>
+            <button class="button" type="submit" style="justify-self:start">Kirim ucapan ♡</button>
+          </form>
+        </div>
+        <div class="wishes">
+          <h3 class="serif" style="font-size:1.6rem">Ucapan dari para tamu</h3>
+          <% if (!rsvps.length) { %><p class="muted">Jadilah yang pertama mengirimkan doa.</p><% } %>
+          <% rsvps.forEach(r => { %><article class="wish"><strong><%= r.name %></strong> <small>· <%= r.attendance %></small><p><%= r.message %></p></article><% }) %>
+        </div>
+      </section>
+      <footer><div class="flourish">❧</div><p>Terima kasih atas doa dan restu Anda</p><p class="serif" style="font-size:1.7rem"><%= invitation.groomName %> &amp; <%= invitation.brideName %></p>
+      <% if (invitation.invitingFamily) { %><p style="margin-top:18px">Turut mengundang</p><p><%= invitation.invitingFamily %></p><% } %>
+      <p style="margin-top:28px;font:500 .78rem 'DM Sans',sans-serif;letter-spacing:.08em;opacity:.85">Created by <strong style="font-weight:700">Ven Loe</strong></p>
+      </footer>
+    </div>
+  </main>
+
+  <% if (invitation.musicFile && /^[a-zA-Z0-9._ -]+\.mp3$/i.test(invitation.musicFile) && !invitation.musicFile.includes('..')) { %>
+    <audio id="backgroundMusic" loop preload="none"><source src="/public/music/<%= encodeURIComponent(invitation.musicFile) %>" type="audio/mpeg"></audio>
+  <% } %>
+  <button class="music-toggle" id="musicToggle" type="button" aria-label="Putar atau jeda musik">♫ Putar musik</button>
+  <script>
+    const openButton = document.getElementById('openInvitation');
+    const content = document.getElementById('invitationContent');
+    const music = document.getElementById('backgroundMusic');
+    const musicToggle = document.getElementById('musicToggle');
+
+    openButton.addEventListener('click', async () => {
+      content.classList.remove('hidden');
+      document.getElementById('mempelai').scrollIntoView({behavior:'smooth'});
+      musicToggle.style.display = 'block';
+      if (music) {
+        try { await music.play(); musicToggle.textContent = '♫ Musik: Jeda'; }
+        catch (_) { musicToggle.textContent = '♫ Putar musik'; }
+      } else {
+        musicToggle.style.display = 'none';
+      }
+      initReveals();
+    });
+
+    if (music) {
+      musicToggle.addEventListener('click', async () => {
+        if (music.paused) {
+          try { await music.play(); musicToggle.textContent = '♫ Musik: Jeda'; }
+          catch (_) { musicToggle.textContent = '♫ Tidak dapat diputar'; }
+        } else {
+          music.pause(); musicToggle.textContent = '♫ Musik: Jeda';
+        }
+      });
+    }
+
+    function initReveals() {
+      const items = document.querySelectorAll('.reveal:not(.visible)');
+      if (!('IntersectionObserver' in window)) {
+        items.forEach(el => el.classList.add('visible'));
+        return;
+      }
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {threshold: 0.12});
+      items.forEach(el => observer.observe(el));
+    }
+    initReveals();
+
+    const eventDate = new Date(<%- JSON.stringify(invitation.eventDate) %>).getTime();
+    const pad = n => String(n).padStart(2, '0');
+    function updateCountdown() {
+      const diff = eventDate - Date.now();
+      if (!Number.isFinite(eventDate)) return;
+      if (diff <= 0) {
+        document.getElementById('countdown').innerHTML = '<p class="serif">Hari bahagia telah tiba. Mohon doa terbaik Anda.</p>';
+        return;
+      }
+      document.getElementById('days').textContent = Math.floor(diff / 86400000);
+      document.getElementById('hours').textContent = pad(Math.floor(diff / 3600000) % 24);
+      document.getElementById('minutes').textContent = pad(Math.floor(diff / 60000) % 60);
+      document.getElementById('seconds').textContent = pad(Math.floor(diff / 1000) % 60);
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+</body>
+</html>

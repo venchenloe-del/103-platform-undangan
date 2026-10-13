@@ -1,0 +1,62 @@
+{
+  "invitations": [
+    {
+      "id": "7161ce33-d614-4e7d-be4d-6538e62a8cd7",
+      "slug": "joni-viva",
+      "groomName": "JONI ADEL TUNBONAT, A.Md",
+      "brideName": "VIVA SORU. S.Tr.M",
+      "groomBio": "Anak ke-5 Putra Tunggal dari 5 bersaudara \r\npasangan Bpk. Noh Tunbonat \r\ndan ibu Lodia Hano",
+      "brideBio": "Anak ke-10, Putri ke-5 dari 11 bersaudara pasangan Bpk. Mikhael Soru (Alm) \r\ndan ibu Samalina Langga",
+      "invitingFamily": "Keluarga Tunbonat, Keluarga Hano, Keluarga Atimeta, Keluarga Neno, Keluarga Humau Mone Nael Mone Kliko, Bpk. Thobias Humau\r\n\r\nKeluarga Soru, Keluarga Langga, Keluarga Neno, Ibu Djefrintje A.T Soru - Nakmofa ,S.Sos",
+      "blessingDate": "2026-10-16T15:00",
+      "blessingTime": "Pukul 15.00 Wita ( 3 Sore )",
+      "blessingVenue": "GMIT Koinonia Kuanino",
+      "blessingMapsUrl": "https://maps.app.goo.gl/cNMruZXbV3V39oYn8",
+      "receptionDate": "2026-10-16T18:00",
+      "receptionTime": "Pukul 18.00 ( 6 sore) - 23.00 Wita (11 malam)",
+      "receptionVenue": "Hotel Oriental Lt.1",
+      "receptionMapsUrl": "https://maps.app.goo.gl/tQBitvBAjo4dVbhAA",
+      "themeColor": "#a94f68",
+      "accentColor": "#d98f9c",
+      "backgroundColor": "#fff5f3",
+      "textColor": "#222021",
+      "fontSizes": {
+        "cover": 22,
+        "intro": 17,
+        "profile": 30,
+        "event": 17,
+        "gallery": 17,
+        "rsvp": 17
+      },
+      "eventDate": "2026-10-16T15:00",
+      "eventTime": "-",
+      "venue": "-",
+      "mapsUrl": "https://maps.app.goo.gl/tQBitvBAjo4dVbhAA",
+      "musicFile": "1791860371117-b838b1ea3b98.mp3",
+      "groomPhoto": "1791860371130-d3adc757e804.jpeg",
+      "bridePhoto": "1791860371133-43dcd51df05d.jpeg",
+      "gallery": [
+        "1791860371134-e9343d77c6f1.jpeg",
+        "1791860371137-e6a7fb8b4763.jpeg",
+        "1791860371139-c1ff7f9f0442.jpeg",
+        "1791860371141-0945c2ac00f4.jpeg",
+        "1791860371144-92fd2282c645.jpeg",
+        "1791860371146-57301f1e1bfa.jpeg",
+        "1791860371148-9f41b0b7e18d.jpeg",
+        "1791860563970-188124c33f42.jpeg",
+        "1791860563971-ab7354fe1970.jpeg"
+      ],
+      "backgrounds": {
+        "cover": "1791860371155-455d96b36ac5.jpeg",
+        "intro": "1791860371156-12072e0e68a7.jpeg",
+        "profile": "",
+        "event": "1791860371157-64f1dbfbe001.jpeg",
+        "gallery": "",
+        "rsvp": "1791860371159-eccf580a9cb7.jpeg"
+      },
+      "createdAt": "2026-10-13T02:59:31.166Z",
+      "updatedAt": "2026-10-13T03:02:43.977Z"
+    }
+  ],
+  "rsvps": []
+}
